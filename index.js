@@ -1,6 +1,6 @@
 const express = require('express')
 require('dotenv').config()
-const modelUser = require('./backend/models/user.models')
+const productsModels = require('./backend/models/products.models')
 
 
 
@@ -11,7 +11,7 @@ app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 
 app.get('/connect/:ref', async (req,res) => {
-    const query = await modelUser.find({correo:req.params.ref});
+    const query = await productsModels.find({correo:req.params.ref});
     res.status(200).json(query)  
 })
 
