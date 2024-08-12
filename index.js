@@ -13,11 +13,13 @@ app.use(express.json())
 app.get('/connect/:ref', async (req,res) => {
     const query = await modelUser.find({correo:req.params.ref});
     res.status(200).json(query)  
+    console.log(query)  
 })
 
 app.get('/connect', async (req,res) => {
     const query = await modelUser.find({});
-    res.status(200).json(query)   
+    res.status(200).json(query) 
+    console.log(query)  
 })
 
 app.post('/insert', async(req,res)=>{
@@ -66,6 +68,7 @@ app.delete('/delete/:id', async (req,res) => {
 
 app.get('/products', async (req,res) => {
     const query = await productsModels.find({});
+    res.status(200).json(query) 
     console.log(query)
        
 })
@@ -120,6 +123,7 @@ app.delete('/delete/:id', async (req,res) => {
 
 app.get('/customers', async (req,res) => {
     const query = await customersModels.find({});
+    res.status(200).json(query)
     console.log(query)
        
 })
@@ -129,10 +133,11 @@ app.post('/insertCustomer', async(req,res)=>{
         nombre:req.body.nombre,
         telefono:req.body.telefono,
         direccion:req.body.direccion,
-        habilitado:req.body.true    
+        habilitado:req.body.true,
+        usuario:req.body._id
     };
 
-    let insert = await productsModels.create(newCustomer)
+    let insert = await customersModels.create(newCustomer)
     if(insert){
         res.status(200).json({'mensaje':'inserted successfully'}) 
     }else{
@@ -169,6 +174,7 @@ app.delete('/delete/:id', async (req,res) => {
 
 app.get('/orders', async (req,res) => {
     const query = await ordersModels.find({});
+    res.status(200).json(query)
     console.log(query)
        
 })

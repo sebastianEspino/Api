@@ -24,8 +24,8 @@ const clientSchema = new conexion.Schema({
         default: true
     },
     usuario:{
-    type: conexion.SchemaTypes.ObjectId
-}
+        type: conexion.SchemaTypes.ObjectId
+    }
 });
 
 const clientModel = conexion.model('customers', clientSchema);
