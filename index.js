@@ -4,19 +4,20 @@ const modelUser = require('./backend/models/user.models')
 const productsModels = require('./backend/models/products.models')
 const customersModels = require('./backend/models/customer.models')
 const ordersModels = require('./backend/models/orders.models')
+const emailService = require('./backend/utils/email.service')
 var app = express()
 
 
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
 
-app.get('/connect/:ref', async (req,res) => {
+app.get('/usuario/:ref', async (req,res) => {
     const query = await modelUser.find({correo:req.params.ref});
     res.status(200).json(query)  
     console.log(query)  
 })
 
-app.get('/connect', async (req,res) => {
+app.get('/usuarios', async (req,res) => {
     const query = await modelUser.find({});
     res.status(200).json(query) 
     console.log(query)  
@@ -66,7 +67,7 @@ app.delete('/delete/:id', async (req,res) => {
 /* The new information is the model of products*/
 
 
-app.get('/products', async (req,res) => {
+app.get('/productos', async (req,res) => {
     const query = await productsModels.find({});
     res.status(200).json(query) 
     console.log(query)
@@ -114,14 +115,14 @@ app.put('/updateProduct/:ref', async (req,res)=>{
 })
 
 
-app.delete('/delete/:id', async (req,res) => {
+app.delete('/deleteProduct/:id', async (req,res) => {
     const remove = await productsModels.findOneAndDelete({referencia:req.params.id});
     res.status(200).json({"mensaje":"removed successfully"})   
 })
 
 /* The new information is model of customers*/
 
-app.get('/customers', async (req,res) => {
+app.get('/clientes', async (req,res) => {
     const query = await customersModels.find({});
     res.status(200).json(query)
     console.log(query)
@@ -134,7 +135,7 @@ app.post('/insertCustomer', async(req,res)=>{
         telefono:req.body.telefono,
         direccion:req.body.direccion,
         habilitado:req.body.true,
-        usuario:req.body._id
+        usuario:req.body.usuario
     };
 
     let insert = await customersModels.create(newCustomer)
@@ -164,15 +165,15 @@ app.put('/updateCustomer/:ref', async (req,res)=>{
 })
 
 
-app.delete('/delete/:id', async (req,res) => {
-    const remove = await customersModels.findOneAndDelete({referencia:req.params.id});
+app.delete('/deleteCustomer/:id', async (req,res) => {
+    const remove = await customersModels.findOneAndDelete({telefono:req.params.id});
     res.status(200).json({"mensaje":"removed successfully"})   
 })
 
 
 /*The information is about model of orders */
 
-app.get('/orders', async (req,res) => {
+app.get('/pedidos', async (req,res) => {
     const query = await ordersModels.find({});
     res.status(200).json(query)
     console.log(query)
@@ -218,10 +219,19 @@ app.put('/updateOrder/:ref', async (req,res)=>{
 })
 
 
-app.delete('/delete/:id', async (req,res) => {
+app.delete('/deleteOrder/:id', async (req,res) => {
     const remove = await ordersModels.findOneAndDelete({referencia:req.params.id});
     res.status(200).json({"mensaje":"removed successfully"})   
 })
 
+
+app.get('/sendEmail', async (req,res) => {
+    await emailService.sendEmail(
+        "medinalondon2004@gmail.com",
+        "Confirmación de Registro en el BootCamp Pragma",
+        "Bienvenido al bootcamp , tendras contrato de aprendizaje",
+    );
+
+})
 
 app.listen(process.env.PORT)
