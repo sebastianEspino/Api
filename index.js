@@ -74,6 +74,12 @@ app.get('/productos', async (req,res) => {
        
 })
 
+app.get('/producto/:ref', async (req,res) => {
+    const query = await productsModels.find({referencia:req.params.ref});
+    res.status(200).json(query)  
+    console.log(query)  
+})
+
 app.post('/insertProduct', async(req,res)=>{
     const newProduct = {
         referencia:req.body.referencia,
@@ -128,6 +134,14 @@ app.get('/clientes', async (req,res) => {
     console.log(query)
        
 })
+
+
+app.get('/cliente/:ref', async (req,res) => {
+    const query = await customersModels.find({telefono:req.params.ref});
+    res.status(200).json(query)  
+    console.log(query)  
+})
+
 
 app.post('/insertCustomer', async(req,res)=>{
     const newCustomer = {
@@ -256,16 +270,6 @@ app.delete('/deleteOrder/:id', async (req,res) => {
     res.status(200).json({"mensaje":"removed successfully"})   
 })
 
-/*
 
-app.get('/sendEmail', async (req,res) => {
-    await emailService.sendEmail(
-        "medinalondon2004@gmail.com",
-        "Confirmación de Registro en el BootCamp Pragma",
-        "Bienvenido al bootcamp , tendras contrato de aprendizaje",
-    );
-
-})
-*/
 
 app.listen(process.env.PORT)
