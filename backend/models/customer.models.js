@@ -24,9 +24,10 @@ const clientSchema = new conexion.Schema({
         default: true
     },
     usuario:{
-        type: conexion.SchemaTypes.ObjectId
+        type: conexion.SchemaTypes.ObjectId,
+        ref:'User'
     }
-});
+},{versionKey:false});
 
 const clientModel = conexion.model('customers', clientSchema);
 module.exports = clientModel;

@@ -147,6 +147,36 @@ app.post('/insertCustomer', async(req,res)=>{
 })
 
 
+app.post('/registroCompleto', async (req,res) => {
+
+    const newUser = {
+        correo:req.body.correo,
+        password:req.body.password,
+        rol:req.body.rol,
+        habilitado: true
+    };
+
+    let user = await modelUser(newUser).save();
+
+    const newCustomer = {
+        nombre:req.body.nombre,
+        telefono:req.body.telefono,
+        direccion:req.body.direccion,
+        habilitado:req.body.true,
+        usuario: user._id
+    };
+
+    let customer = await customersModels(newCustomer).save();
+
+    if(customer){
+        res.status(200).json({'mensaje':'inserted successfully'})
+    }
+
+
+
+})
+
+
 app.put('/updateCustomer/:ref', async (req,res)=>{
     const updateCustomer = {
         nombre:req.body.nombre,
@@ -181,10 +211,11 @@ app.get('/pedidos', async (req,res) => {
 })
 
 app.post('/insertOrder', async(req,res)=>{
+    
     const newOrder = {
         cliente:req.body.cliente,
         carrito:req.body.carrito,
-        subtotal:req.body.carrito,
+        subtotal:req.body.subtotal,
         impuesto:req.body.impuesto,
         total:req.body.total,
         estado:req.body.estado    
@@ -200,6 +231,7 @@ app.post('/insertOrder', async(req,res)=>{
 
 
 app.put('/updateOrder/:ref', async (req,res)=>{
+    
     const updateOrder = {
         cliente:req.body.cliente,
         carrito:req.body.carrito,
@@ -224,6 +256,7 @@ app.delete('/deleteOrder/:id', async (req,res) => {
     res.status(200).json({"mensaje":"removed successfully"})   
 })
 
+/*
 
 app.get('/sendEmail', async (req,res) => {
     await emailService.sendEmail(
@@ -233,5 +266,6 @@ app.get('/sendEmail', async (req,res) => {
     );
 
 })
+*/
 
 app.listen(process.env.PORT)

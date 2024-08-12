@@ -24,7 +24,7 @@ const schemaOrder = new mongoose.Schema({
             enum: ['creado', 'pagado','enviado','recibido','cancelado','finalizado'],
         },
     
-});
+},{versionKey:false});
 
 const order = mongoose.model("orders", schemaOrder);
 module.exports = order;

@@ -30,7 +30,7 @@ const schemaProducto = new mongoose.Schema({
         habilitado: {
             type: Boolean, default: true
         },
-});
+},{versionKey:false});
 
 const producto = mongoose.model("products", schemaProducto);
 module.exports = producto;
